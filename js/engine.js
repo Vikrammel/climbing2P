@@ -5,32 +5,33 @@ var Engine = (function(global){
     ctx = canvas.getContext('2d'),
     lastTime;
 
-//not sure if this function is necessary at this point of development
-	// function resizeGame() {
-	//     var gameArea = document.getElementById('gameArea');
-	//     var widthToHeight = 4 / 3;
-	//     var newWidth = window.innerWidth;
-	//     var newHeight = window.innerHeight;
-	//     var newWidthToHeight = newWidth / newHeight;
-	    
-	//     if (newWidthToHeight > widthToHeight) {
-	//         newWidth = newHeight * widthToHeight;
-	//         gameArea.style.height = newHeight + 'px';
-	//         gameArea.style.width = newWidth + 'px';
-	//     } else {
-	//         newHeight = newWidth / widthToHeight;
-	//         gameArea.style.width = newWidth + 'px';
-	//         gameArea.style.height = newHeight + 'px';
-	//     }
-	    
-	//     gameArea.style.marginTop = (-newHeight / 2) + 'px';
-	//     gameArea.style.marginLeft = (-newWidth / 2) + 'px';
-	    
-	//     canvas.width = newWidth;
-	//     canvas.height = newHeight;
-	// }
-	// resizeGame();
-	// window.addEventListener('resize', resizeGame, false);
+	function resizeGame() {
+        var gameArea = document.getElementById('gameArea');
+        var widthToHeight = 4 / 3;
+        var newWidth = window.innerWidth;
+        var newHeight = window.innerHeight;
+        var newWidthToHeight = newWidth / newHeight;
+        
+        if (newWidthToHeight > widthToHeight) {
+            newWidth = newHeight * widthToHeight;
+            gameArea.style.height = newHeight + 'px';
+            gameArea.style.width = newWidth + 'px';
+        } else {
+            newHeight = newWidth / widthToHeight;
+            gameArea.style.width = newWidth + 'px';
+            gameArea.style.height = newHeight + 'px';
+        }
+        
+        gameArea.style.marginTop = (-newHeight / 2) + 'px';
+        gameArea.style.marginLeft = (-newWidth / 2) + 'px';
+        
+
+        canvas.width = newWidth;
+        canvas.height = newHeight;
+    };
+    
+	resizeGame();
+	window.addEventListener('resize', resizeGame, false);
 
 	function main() {
         /* Get our time delta information which is required if your game
@@ -87,10 +88,10 @@ var Engine = (function(global){
      * render methods.
      */
     function updateEntities(dt) {
-        allEnemies.forEach(function(enemy) {
-            enemy.update(dt);
+        allLedges.forEach(function(ledge) {
+            ledge.update(dt);
         });
-        player.update();
+        //player.update();
     }
         /* This function initially draws the "game level", it will then call
      * the renderEntities function. Remember, this function is called every
@@ -103,12 +104,12 @@ var Engine = (function(global){
          * for that particular row of the game level.
          */
         var rowImages = [
-                'images/water-block.png',   // Top row is water
                 'images/stone-block.png',   // Row 1 of 3 of stone
                 'images/stone-block.png',   // Row 2 of 3 of stone
                 'images/stone-block.png',   // Row 3 of 3 of stone
-                'images/grass-block.png',   // Row 1 of 2 of grass
-                'images/grass-block.png'    // Row 2 of 2 of grass
+                'images/stone-block.png',   // Row 1 of 3 of stone
+                'images/stone-block.png',   // Row 2 of 3 of stone
+                'images/stone-block.png',   // Row 3 of 3 of stone
             ],
             numRows = 6,
             numCols = 5,
@@ -143,8 +144,8 @@ var Engine = (function(global){
         /* Loop through all of the objects within the allEnemies array and call
          * the render function you have defined.
          */
-        allEnemies.forEach(function(enemy) {
-            enemy.render();
+        allLedges.forEach(function(ledge) {
+            ledge.render();
         });
 
         player.render();
@@ -164,10 +165,10 @@ var Engine = (function(global){
      */
     Resources.load([
         'images/stone-block.png',
-        'images/water-block.png',
-        'images/grass-block.png',
-        'images/enemy-bug.png',
-        'images/char-boy.png'
+        'images/char-boy.png',
+        'images/Rock.png',
+        'images/char-princess-girl.png',
+        'images/char-pink-girl.png'
     ]);
     Resources.onReady(init);
 
