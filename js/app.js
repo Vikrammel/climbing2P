@@ -1,96 +1,106 @@
-//todo generate a 2D array where each row has one ledge
-var GameTable = function(){
-    this.score = 0;
+var GameBoard = function(){
+    var row, ledgeRow;
+    var self = this;
+    self.score = 0;
+    this.correct = false;
+    self.background = 0;
+    self.player = new Player();
+    self.block = 'images/stone-block.png';
+    self.ledgeSprite = 'images/Rock.png'; //place holder ledge image
+
+    self.yValues = [-20, 60, 140, 220, 300, 380,460];
+    self.xValues = [0,100,200]; //place holders
+    self.gameArrayLength = this.yValues.length - 1;
+    //create an array of 6 elements
+    self.gameRows = new Array(this.gameArrayLength);
+    //set each array element to a LedgeRow
+    for(row = 0; row <= this.gameArrayLength; row++){
+        ledgeRow = new LedgeRow();
+        self.gameRows[row] = ledgeRow.ledgeArray;
+    }
 };
 
 //moves the player based on key pressed
-GameTable.prototype.handleInput = function(key) {
+ function handleInput(key) {
     //todo make this function change player sprite based on keypress
     //and move next row of ledges down if player has hit correct key
-    if (key === 0) {
-
-    } else if (key === 1) {
-
+    if (key === 0 && game.gameRows[5][0] === 1) {
+        game.correct = true;
+        console.log('working');
+    } else if (key === 1 && game.gameRows[5][1] === 1) {
+        game.correct = true;
+        console.log('working');
+    } else if (key === 2 && game.gameRows[5][2] === 1){
+        game.correct = true;
+        console.log('working');
     } else {
-
-    } 
+        console.log('wrong');
+    }
 };
 
-GameTable.prototype.update = function(){
-
+GameBoard.prototype.update = function(){
+    var n = 0;
+    if(this.correct = true){
+        for(n; n <= this.gameArrayLength; n++){
+            this.gameRows[n+1] = this.gameRows[n];
+        }
+        this.gameRows[0] = new LedgeRow();
+    }
+    this.correct = false;
 };
 
 // Draw the game board on the screen, required method for game
-GameTable.prototype.render = function() {
-    var row, col;
-    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-    for(row = 0; row <=)
+GameBoard.prototype.render = function() {
+    var row = 0;
+    var col;
+    while(row < 3){
+        for(col = 0; col <= this.gameArrayLength; col++){
+            ctx.drawImage(Resources.get(this.block), this.xValues[row], this.yValues[col]);
+        }
+        if(this.gameRows[this.gameArrayLength])
+        row++;
+    }
+    
 };
 
-var Ledge = function(){
+var LedgeRow = function(){
+    this.ledgeArray = this.generateX();
     //todo determine values of x that will center each row of blocks to canvas
     //even when canvas is resized 
-    this.xValues = [0,400,800]; //place holders
-    this.yValues = [60, 140, 220, 300, 380]; //place holders
-    this.sprite = 'images/Rock.png';
+    this.xValues = [0,100,200]; //place holders
 };
 
-//not sure if this is necessary, but this function should return an array of x values
-//that maintain proportionality when canvas is resized
-Ledge.prototype.generateX = function(){
-    var xArray = [];
-
+LedgeRow.prototype.generateX = function(){
+    var xArray = [0,0,0];
+    xArray[this.getRandX()] = 1;
 
     return xArray;
 };
 
-// Update the enemy's position, required method for game
-// Parameter: dt, a time delta between ticks
-Ledge.prototype.update = function(dt) {
-    // You should multiply any movement by the dt parameter
-    // which will ensure the game runs at the same speed for
-    // all computers.
-    var maxX = this.xValues[1];
-    this.x += this.speed * dt;
-    //resets enemy when it has travelled offscreen
-    if (this.x > maxX) {
-        this.reset();
-    }
-};
 
 //helper function to get a random place in row to put ledge
-Ledge.prototype.getRandX = function() {
-    return this.xValues[Math.floor(Math.random() * this.xValues.length)];
+LedgeRow.prototype.getRandX = function() {
+    return Math.floor(Math.random() * 3);
 };
-
 
 //defines the attributes of the player object
 var Player = function() {
-    //todo find x values that center player on screen
-    this.xValue = [-2, 402]; //place holders
-    this.yValue = [-20, 380]; //place holders
-    //three placeholder sprites one for default, two for left or right grab
+    //todo find x values that center player on screen regardless of canvas size
+    this.xValue = 100; //place holders
+    this.yValue = 460; //place holders
+    this.currentSprite = 0;
+    //three place holder sprites one for default, two for left or right grab
     this.sprite = ['images/char-boy.png','image/char-pink-girl.png','images/char-princess.png'];
     this.reset();
 };
 
-
 Player.prototype.render = function() {
-    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+    ctx.drawImage(Resources.get(this.sprite[this.currentSprite]), this.xValue, this.yValue);
 };
 
-//resets player's x,y to starting position
 Player.prototype.reset = function() {
-    //todo determine where to put player
-    this.x = 200;
-    this.y = 380;
+    this.currentSprite = 0;
 };
-
-//todo check if player has hit key corresponding to which row element contains ledge
-function checkLedge(Player){
-
-};
-
 
 // This listens for key presses and sends the keys to your
 //  Player.handleInput() method. You don't need to modify this.
@@ -100,7 +110,7 @@ document.addEventListener('keyup', function(e) {
         87: 1,
         69: 2
     };
-    game.handleInput(allowedKeys[e.keyCode]);
+    handleInput(allowedKeys[e.keyCode]);
 });
-var game = new Game();
+var game = new GameBoard();
 var player = new Player();
