@@ -26,12 +26,15 @@ var GameBoard = function(){
     //and move next row of ledges down if player has hit correct key
     if (key === 0 && game.gameRows[5][0] === 1) {
         game.correct = true;
+        player.currentSprite = 1;
         console.log('working');
     } else if (key === 1 && game.gameRows[5][1] === 1) {
         game.correct = true;
+        player.currentSprite = 0;
         console.log('working');
     } else if (key === 2 && game.gameRows[5][2] === 1){
         game.correct = true;
+        player.currentSprite = 2;
         console.log('working');
     } else {
         console.log('wrong');
@@ -64,6 +67,7 @@ GameBoard.prototype.render = function() {
 };
 
 var LedgeRow = function(){
+    this.rand = this.getRandX();
     this.ledgeArray = this.generateX();
     //todo determine values of x that will center each row of blocks to canvas
     //even when canvas is resized 
@@ -72,7 +76,7 @@ var LedgeRow = function(){
 
 LedgeRow.prototype.generateX = function(){
     var xArray = [0,0,0];
-    xArray[this.getRandX()] = 1;
+    xArray[this.rand] = 1;
 
     return xArray;
 };
