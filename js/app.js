@@ -2,7 +2,7 @@ var GameBoard = function(){
     var row, ledgeRow;
     var self = this;
     self.score = 0;
-    this.correct = false;
+    self.correct = false;
     self.background = 0;
     self.player = new Player();
     self.block = 'images/stone-block.png';
@@ -26,15 +26,15 @@ var GameBoard = function(){
     //and move next row of ledges down if player has hit correct key
     if (key === 0 && game.gameRows[5][0] === 1) {
         game.correct = true;
-        player.currentSprite = 1;
+        //player.currentSprite = 1;
         console.log('working');
     } else if (key === 1 && game.gameRows[5][1] === 1) {
         game.correct = true;
-        player.currentSprite = 0;
+        //player.currentSprite = 0;
         console.log('working');
     } else if (key === 2 && game.gameRows[5][2] === 1){
         game.correct = true;
-        player.currentSprite = 2;
+        //player.currentSprite = 2;
         console.log('working');
     } else {
         console.log('wrong');
@@ -42,12 +42,14 @@ var GameBoard = function(){
 };
 
 GameBoard.prototype.update = function(){
-    var n = gameArrayLength;
+    var n = this.gameArrayLength;
+    var ledge;
     if(this.correct === true){
         for(n; n > 0; n--){
             this.gameRows[n] = this.gameRows[n-1];
         }
-        this.gameRows[0] = new LedgeRow();
+        ledge = new LedgeRow();
+        this.gameRows[0] = ledge.ledgeArray;
     }
     this.correct = false;
 };
@@ -63,14 +65,14 @@ GameBoard.prototype.render = function() {
         if(this.gameRows[this.gameArrayLength])
         row++;
     }
-
+    
 };
 
 var LedgeRow = function(){
     this.rand = this.getRandX();
     this.ledgeArray = this.generateX();
     //todo determine values of x that will center each row of blocks to canvas
-    //even when canvas is resized
+    //even when canvas is resized 
     this.xValues = [0,100,200]; //place holders
 };
 
