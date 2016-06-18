@@ -42,10 +42,10 @@ var GameBoard = function(){
 };
 
 GameBoard.prototype.update = function(){
-    var n = 0;
-    if(this.correct = true){
-        for(n; n <= this.gameArrayLength; n++){
-            this.gameRows[n+1] = this.gameRows[n];
+    var n = gameArrayLength;
+    if(this.correct === true){
+        for(n; n > 0; n--){
+            this.gameRows[n] = this.gameRows[n-1];
         }
         this.gameRows[0] = new LedgeRow();
     }
@@ -63,14 +63,14 @@ GameBoard.prototype.render = function() {
         if(this.gameRows[this.gameArrayLength])
         row++;
     }
-    
+
 };
 
 var LedgeRow = function(){
     this.rand = this.getRandX();
     this.ledgeArray = this.generateX();
     //todo determine values of x that will center each row of blocks to canvas
-    //even when canvas is resized 
+    //even when canvas is resized
     this.xValues = [0,100,200]; //place holders
 };
 

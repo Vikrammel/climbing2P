@@ -11,7 +11,7 @@ var Engine = (function(global){
         var newWidth = window.innerWidth;
         var newHeight = window.innerHeight;
         var newWidthToHeight = newWidth / newHeight;
-        
+
         if (newWidthToHeight > widthToHeight) {
             newWidth = newHeight * widthToHeight;
             gameArea.style.height = newHeight + 'px';
@@ -21,10 +21,10 @@ var Engine = (function(global){
             gameArea.style.width = newWidth + 'px';
             gameArea.style.height = newHeight + 'px';
         }
-        
+
         gameArea.style.marginTop = (-newHeight / 2) + 'px';
         gameArea.style.marginLeft = (-newWidth / 2) + 'px';
-        
+
 
         canvas.width = newWidth;
         canvas.height = newHeight;
@@ -47,7 +47,7 @@ var Engine = (function(global){
         /* Call our update/render functions, pass along the time delta to
          * our update function since it may be used for smooth animation.
          */
-        //update(dt);
+        update();
         render();
 
         /* Set our lastTime variable which is used to determine the time delta
@@ -90,7 +90,7 @@ var Engine = (function(global){
      */
     function updateEntities(dt) {
         game.update();
-        player.update();
+//        player.update();
     }
         /* This function initially draws the "game level", it will then call
      * the renderEntities function. Remember, this function is called every
